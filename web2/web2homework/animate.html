@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="animate.css">
+</head>
+	<script src="animate.js"></script>
+<body>
+	<div id="header">
+		<div id="head">
+			<img src="images/a15.png" alt="温馨提示">
+			<div id="wrapper">
+				<p id="point">[温馨提示]最近有不少不法分子在网上骗人，请大家注意!!!</p>
+			</div>
+		</div>
+	</div>
+	<div class="box" id="box">
+		<div class="slider" id="slider">
+			<div class="slide"><img src="images/b5.png"></div>
+			<div class="slide"><img src="images/b1.png"></div>
+			<div class="slide"><img src="images/b2.png"></div>
+			<div class="slide"><img src="images/b3.png"></div>
+			<div class="slide"><img src="images/b4.png"></div>
+			<div class="slide"><img src="images/b5.png"></div>
+			<div class="slide"><img src="images/b1.png"></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav" id="nav">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var box=document.getElementById("box");
+		var Navlist=document.getElementById("nav").children;
+		var slider=document.getElementById("slider");
+		var left=document.getElementById("left");
+		var right=document.getElementById("right");
+		var point=document.getElementById("point");
+		var Right=getStyle(point,"right");
+		var index=1;
+		var timer;
+		var isMoving=false;
+		//提示
+		poanimate(point,{right: 1000});
+		setInterval(function(){
+			point.style.right=Right;
+			poanimate(point,{right: 1000});//从-310匀速移动至970
+		}, 16000);
+		//轮播下一张的函数
+		function next(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index++;
+			navChange();
+			animate(slider,{left:-1200*index},function(){
+				if(index==6){
+					slider.style.left="-1200px";
+					index=1;
+				}
+				isMoving=false;
+			});
+		}
+		function prev(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index--;
+			navChange();
+			animate(slider,{left:-1200*index},function(){
+				if(index==0){
+					slider.style.left="-6000px";
+					index=5;
+				}
+				isMoving=false;
+			});
+		}
+		var timer=setInterval(next,2000);
+		//鼠标划入清定时器
+		box.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		}
+		//鼠标划出开定时器
+		box.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer =setInterval(next,2000);
+		}
+		right.onclick=next;
+		left.onclick=prev;
+		//小按钮点击事件
+		for(i=0;i<Navlist.length;i++){
+			Navlist[i].idx=i;
+			Navlist[i].onclick=function(){
+				index=this.idx+1;
+				navChange();
+				animate(slider,{left:-1200*index});
+
+			}
+		}
+		// 小按钮背景色切换
+		function navChange(){
+			for(i=0;i<Navlist.length;i++){
+				Navlist[i].className="";
+			}
+			if(index==6){
+				Navlist[0].className="active";
+			}else if(index==0){
+				Navlist[4].className="active";
+			}else{
+				Navlist[index-1].className="active";
+			}	
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*for(var i=1;i<Navlist.length;i++){
+			Navlist[i].index=i;
+			Navlist[i].onclick=function(){
+				index=this.index+1;
+				navmove();
+				animate(slider,{left:-1200*index});
+			}
+		}
+		function next(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index++;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==6){
+					slider.style.left="-1200px";
+					index=1;
+				}
+				isMoving=false;
+			});
+		}
+		function prev(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index--;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==0){
+					slider.style.left="-6000px";
+					index=5;
+				}
+				isMoving=false;
+			});
+		}
+		function navmove(){
+			for(var i=0;i<Navlist.length;i++){
+				Navlist[i].className="";
+			}
+			if(index>5){
+				Navlist[0].className="active";
+			}else if(index<=0){
+				Navlist[4].className="active";
+			}else{
+				Navlist[index-1].className="active";
+			}
+		}
+		timer=setInterval(next,3000);*/
+	</script>
+</body>
+</html>
